@@ -1,0 +1,15 @@
+1.2.1
+	- Now the troopview only counts the player's troops, but still doesn't classify reinforcements
+1.2
+	- Added troopview screen, tells the user the total troops deployed in his village
+	- KNOWN BUGS:
+		- Doesn't tell the difference between player's troops and other tribe troops
+1.12
+	- Added login (not) successful message
+	- Command functions for raid and login buttons create new threads, making it possible to try to login again if failed
+1.1 
+	- Added GUI for adding raids to the raidlist
+	- Removed auto-raid functionality, threads cause memory leaks (C++ would perform better...)
+	- Better GUI
+1.0 
+	- Threads finally exit properly (memory leaks)
