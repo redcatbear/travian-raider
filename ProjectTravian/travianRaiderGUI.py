@@ -333,11 +333,11 @@ def troopDisplay(*args):
         logged.set("")
 
 def displayRaidlist(*args):
-    lists = []
     with open("raidlist.txt", "r+") as f:
         text = f.read()
-        nLines = (text).count("\n")
-        lists.append(eval(text))
+        nLines = text.count("\n")
+        newText = text.split("\n")
+        lists = [eval(x) for x in newText[:-1]]
     for i in range(1, nLines+1):
         for j in range(1, 13):
             if j == 1:
