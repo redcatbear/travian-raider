@@ -167,49 +167,49 @@ t11 = ttk.Label(mainframe)
 t11.grid(column=8, row=1, sticky=(W, E))
 
 t1tv = ttk.Label(troopview)
-t1tv.grid(column=1, row=1, sticky=(W, E))
+t1tv.grid(column=2, row=1, sticky=(W, E))
 
 t2tv = ttk.Label(troopview)
-t2tv.grid(column=2, row=1, sticky=(W, E))
+t2tv.grid(column=3, row=1, sticky=(W, E))
 
 t3tv = ttk.Label(troopview)
-t3tv.grid(column=3, row=1, sticky=(W, E))
+t3tv.grid(column=4, row=1, sticky=(W, E))
 
 t4tv = ttk.Label(troopview)
-t4tv.grid(column=4, row=1, sticky=(W, E))
+t4tv.grid(column=5, row=1, sticky=(W, E))
 
 t5tv = ttk.Label(troopview)
-t5tv.grid(column=5, row=1, sticky=(W, E))
+t5tv.grid(column=6, row=1, sticky=(W, E))
 
 t6tv = ttk.Label(troopview)
-t6tv.grid(column=6, row=1, sticky=(W, E))
+t6tv.grid(column=7, row=1, sticky=(W, E))
 
 t7tv = ttk.Label(troopview)
-t7tv.grid(column=7, row=1, sticky=(W, E))
+t7tv.grid(column=8, row=1, sticky=(W, E))
 
 t8tv = ttk.Label(troopview)
-t8tv.grid(column=8, row=1, sticky=(W, E))
+t8tv.grid(column=9, row=1, sticky=(W, E))
 
 t9tv = ttk.Label(troopview)
-t9tv.grid(column=9, row=1, sticky=(W, E))
+t9tv.grid(column=10, row=1, sticky=(W, E))
 
 t10tv = ttk.Label(troopview)
-t10tv.grid(column=10, row=1, sticky=(W, E))
+t10tv.grid(column=11, row=1, sticky=(W, E))
 
 t11tv = ttk.Label(troopview)
-t11tv.grid(column=11, row=1, sticky=(W, E))
+t11tv.grid(column=12, row=1, sticky=(W, E))
 
 troopsRM = []
 for i in range(13):
     troopsRM.append(ttk.Label(raidlistM))
-    troopsRM[i].grid(column=i+1, row=1, sticky=(W, E))
+    troopsRM[i].grid(column=i+2, row=1)
     if i == 11:
-        troopsRM[i]["text"] = "  X"
+        troopsRM[i]["text"] = "X"
     elif i == 12:
-        troopsRM[i]["text"] = "  Y"
+        troopsRM[i]["text"] = "Y"
 
 for i in range(len(truppenTV)):
-    ttk.Label(troopview, textvariable=truppenTV[i]).grid(column=i+1, row=2)
+    ttk.Label(troopview, textvariable=truppenTV[i]).grid(column=i+2, row=2)
 
 # puts all the labels into a convenient list, for further manipulation
 troopLabels = [t1, t2, t3, t4, t5, t6, t7, t8, t9, t10]
@@ -227,6 +227,8 @@ ttk.Label(mainframe, text="Username: ").grid(column=1, row=1, sticky=(E))
 ttk.Label(mainframe, text="Password: ").grid(column=1, row=2, sticky=(E))
 ttk.Label(mainframe, text="Server URL: ").grid(column=1, row=3, sticky=(E))
 ttk.Label(mainframe, text="Tribe: ").grid(column=1, row=4, sticky=(E))
+
+raidManagerCheck = []
 
 ## Functions ##
 
@@ -269,6 +271,7 @@ def combo(*args):
     troopsRM[10]['image'] = troops[-1]
 
 def login():
+    logButton.state(["disabled"])
     # executed when the login button is pressed, or return is pressed
     global isLogged
     # we use isLogged as a global, for other functions which won't work if the user isn't logged in
@@ -296,6 +299,7 @@ def login():
         logged.set("Failure!")
     timelib.sleep(2)
     logged.set("")
+    logButton.state(["!disabled"])
 
 def raid():
     # executed when the raid button is pressed, sends a raid
@@ -339,13 +343,14 @@ def displayRaidlist(*args):
         newText = text.split("\n")
         lists = [eval(x) for x in newText[:-1]]
     for i in range(1, nLines+1):
-        for j in range(1, 13):
-            if j == 1:
-                ttk.Label(raidlistM, text=lists[i-1][j][0]).grid(column=12, row=i+1, sticky=(W, E))
-                ttk.Label(raidlistM, text=lists[i-1][j][1]).grid(column=13, row=i+1, sticky=(W, E))
+        for j in range(2, 14):
+            if j-1 == 1:
+                ttk.Label(raidlistM, text=lists[i-1][j-1][0]).grid(column=13, row=i+1, sticky=(W, E))
+                ttk.Label(raidlistM, text=lists[i-1][j-1][1]).grid(column=14, row=i+1, sticky=(W, E))
             else:
-                ttk.Label(raidlistM, text=lists[i-1][j]).grid(column=j-1, row=i+1, sticky=(W, E))
-            
+                ttk.Label(raidlistM, text=lists[i-1][j-1]).grid(column=j-1, row=i+1, sticky=(W, E))
+                raidManagerCheck.append(ttk.Checkbutton(raidlistM))
+                raidManagerCheck[i-1].grid(column=0, row=i+1)
         
 ## Other ##
 
@@ -369,7 +374,8 @@ def displayIt(*args):
 
 ## Buttons ##
 
-ttk.Button(mainframe, text="Log in", command=logIt).grid(column=2, row=5, sticky=(W, E))
+logButton = ttk.Button(mainframe, text="Log in", command=logIt)
+logButton.grid(column=2, row=5, sticky=(W, E))
 ttk.Button(mainframe, text="Add to raidlist", command=addToRaidlist).grid(column=3, row=6, columnspan=3, sticky=(W, E))
 ttk.Button(mainframe, text="Raid!", image=swords, compound="left", command=raidIt).grid(column=6, row=6, columnspan=3, sticky=(W, E))
 ttk.Button(mainframe, text="Display troops!", command=displayIt).grid(column=1, row=6, sticky=(W, E))
