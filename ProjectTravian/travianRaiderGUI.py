@@ -65,6 +65,8 @@ y = StringVar()
 # tells the player if the connection to the server was successful
 logged = StringVar()
 
+raidManagerVar = []
+
 ## Widgets ##
 
 # combobox for choosing tribe
@@ -229,8 +231,46 @@ ttk.Label(mainframe, text="Server URL: ").grid(column=1, row=3, sticky=(E))
 ttk.Label(mainframe, text="Tribe: ").grid(column=1, row=4, sticky=(E))
 
 raidManagerCheck = []
+raidManagerLabels = []
 
 ## Functions ##
+
+def removeRaid():
+    try:
+        ind = []
+        # holds the indexes of checked boxes
+        for i in range(len(raidManagerCheck)):
+            if raidManagerVar[i].get() == 1:
+                # if the checkboxes is True, then we append to ind
+                ind.append(i)
+        with open("raidlist.txt", "r") as f:
+            # we open, we read, we store, we close
+            text = f.read()
+        # we split by \n
+        rawData = text.split("\n")
+        raidlist = [eval(x) for x in rawData[:-1]
+        # we evaluate each element of rawData, except the last one
+        # which is an empty string
+        for i in ind:
+            # we delete the corresponding element from these lists
+            del raidlist[i]
+            raidManagerCheck[i].grid_forget()
+            # grid_forget() ungrids the element from the screen
+            del raidManagerCheck[i]
+            del raidManagerVar[i]
+            for e in raidManagerLabels[i]:
+                # we grid forget each element (label) in the raidManagerLabels[i]
+                e.grid_forget()
+            del raidManagerLabels[i]
+        with open("raidlist.txt", "w") as f:
+            # we open, we write, we close
+            for e in raidlist:
+                f.write(repr(e) + "\n")
+        # we sleep for 2s then update the display
+        timelib.sleep(2)
+        displayRaidlist()
+    except:
+        pass
 
 def combo(*args):
     # executed when the combobox's state has been changed
@@ -324,6 +364,8 @@ def addToRaidlist(*args):
         # imported and evaluated by a TravianRaider function
     except:
         pass
+    # we update the display
+    displayRaidlist()
 
 def troopDisplay(*args):
     try:
@@ -338,19 +380,40 @@ def troopDisplay(*args):
 
 def displayRaidlist(*args):
     with open("raidlist.txt", "r+") as f:
+        # opens the raidlist
         text = f.read()
+        # reads its contents
         nLines = text.count("\n")
+        # counts the number of lines to see how many times does it have
+        # to create the label widgets
         newText = text.split("\n")
+        # we split it by newlines
         lists = [eval(x) for x in newText[:-1]]
+        # we eval each string in newText, which is a list, except the
+        # last element which is an empty string
     for i in range(1, nLines+1):
+        toApp = []
+        # toApp contains elements to append to raidManagerLabels, for
+        # further manipulation (ungrid, delete)
         for j in range(2, 14):
-            if j-1 == 1:
-                ttk.Label(raidlistM, text=lists[i-1][j-1][0]).grid(column=13, row=i+1, sticky=(W, E))
-                ttk.Label(raidlistM, text=lists[i-1][j-1][1]).grid(column=14, row=i+1, sticky=(W, E))
+            if j == 2:
+                # if j == 2 then it's the coordinates tuple which we have
+                # to process differently
+                toApp.append(ttk.Label(raidlistM, text=lists[i-1][j-1][0]))
+                toApp[0].grid(column=13, row=i+1, sticky=(W, E))
+                toApp.append(ttk.Label(raidlistM, text=lists[i-1][j-1][1]))
+                toApp[1].grid(column=14, row=i+1, sticky=(W, E))
             else:
-                ttk.Label(raidlistM, text=lists[i-1][j-1]).grid(column=j-1, row=i+1, sticky=(W, E))
-                raidManagerCheck.append(ttk.Checkbutton(raidlistM))
+                # normal widgets
+                toApp.append(ttk.Label(raidlistM, text=lists[i-1][j-1]))
+                toApp[j-1].grid(column=j-1, row=i+1, sticky=(W, E))
+                # we add one IntVar object for each checkbox
+                raidManagerVar.append(IntVar())
+                # we append each checkbox to the checkbox list
+                raidManagerCheck.append(ttk.Checkbutton(raidlistM, variable=raidManagerVar[i-1]))
                 raidManagerCheck[i-1].grid(column=0, row=i+1)
+        # we append the list of widgets to raidManagerLabels
+        raidManagerLabels.append(toApp)
         
 ## Other ##
 
@@ -372,6 +435,10 @@ def displayIt(*args):
     t3 = threading.Thread(target=troopDisplay)
     t3.start()
 
+def removeIt(*args):
+    t4 = threading.Thread(target=removeRaid)
+    t4.start()
+
 ## Buttons ##
 
 logButton = ttk.Button(mainframe, text="Log in", command=logIt)
@@ -379,6 +446,7 @@ logButton.grid(column=2, row=5, sticky=(W, E))
 ttk.Button(mainframe, text="Add to raidlist", command=addToRaidlist).grid(column=3, row=6, columnspan=3, sticky=(W, E))
 ttk.Button(mainframe, text="Raid!", image=swords, compound="left", command=raidIt).grid(column=6, row=6, columnspan=3, sticky=(W, E))
 ttk.Button(mainframe, text="Display troops!", command=displayIt).grid(column=1, row=6, sticky=(W, E))
+ttk.Button(mainframe, text="Delete", command=removeIt).grid(column=1, row=7, sticky=(W, E))
 
 ## Execution ##
 
