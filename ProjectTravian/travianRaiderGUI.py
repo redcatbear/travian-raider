@@ -248,7 +248,7 @@ def removeRaid():
             text = f.read()
         # we split by \n
         rawData = text.split("\n")
-        raidlist = [eval(x) for x in rawData[:-1]
+        raidlist = [eval(x) for x in rawData[:-1]]
         # we evaluate each element of rawData, except the last one
         # which is an empty string
         for i in ind:
@@ -266,9 +266,6 @@ def removeRaid():
             # we open, we write, we close
             for e in raidlist:
                 f.write(repr(e) + "\n")
-        # we sleep for 2s then update the display
-        timelib.sleep(2)
-        displayRaidlist()
     except:
         pass
 
@@ -408,10 +405,10 @@ def displayRaidlist(*args):
                 toApp.append(ttk.Label(raidlistM, text=lists[i-1][j-1]))
                 toApp[j-1].grid(column=j-1, row=i+1, sticky=(W, E))
                 # we add one IntVar object for each checkbox
-                raidManagerVar.append(IntVar())
-                # we append each checkbox to the checkbox list
-                raidManagerCheck.append(ttk.Checkbutton(raidlistM, variable=raidManagerVar[i-1]))
-                raidManagerCheck[i-1].grid(column=0, row=i+1)
+        raidManagerVar.append(IntVar())
+        # we append each checkbox to the checkbox list
+        raidManagerCheck.append(ttk.Checkbutton(raidlistM, variable=raidManagerVar[i-1]))
+        raidManagerCheck[i-1].grid(column=0, row=i+1)
         # we append the list of widgets to raidManagerLabels
         raidManagerLabels.append(toApp)
         
