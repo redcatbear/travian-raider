@@ -344,8 +344,15 @@ def raid():
     if isLogged:
 	# if the user is logged in, proceed to raid
     	TravianRaider.raidGoldless()
+        loggedLabel['foreground'] = "green"
+        logged.set("Raid successful!")
+        timelib.sleep(2)
+        logged.set("")
     else:
-    	pass
+        loggedLabel['foreground'] = "red"
+        logged.set("Not logged!")
+        timelib.sleep(2)
+        logged.set("")
 
 def addToRaidlist(*args):
     try:
