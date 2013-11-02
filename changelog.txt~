@@ -1,3 +1,10 @@
+1.4
+	- Raidlist Manager can now delete raids
+1.3.1
+	- Now login button is disabled while logging in, to prevent some visual bugs
+1.3
+	- New raidlist manager, so far it only displays all the raid setups
+	- TODO: Add delete and edit functionality
 1.2.1
 	- Now the troopview only counts the player's troops, but still doesn't classify reinforcements
 1.2

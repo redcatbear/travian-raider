@@ -1,11 +1,6 @@
-import twill
 import sys
-sys.path.append("beautifulsoup")
+import mechanize
 from bs4 import BeautifulSoup
-from StringIO import StringIO
-
-# all twill output will be sent to a StringIO object and then dumped
-twill.set_output(StringIO())
 
 def troopParsing(soup, isHome, parsedSoup=None):
     """Parses the soup into a troop-number list"""
@@ -50,14 +45,14 @@ def troops():
     # the url filter for troops at other places
     # the following goes to each filter url and gets the soup of each
     # set of troops
-    twill.commands.go(incomingUrl)
-    soupIncoming = BeautifulSoup(twill.commands.show())
-    twill.commands.go(outgoingUrl)
-    soupOutgoing = BeautifulSoup(twill.commands.show())
-    twill.commands.go(homeUrl)
-    soupHome = BeautifulSoup(twill.commands.show())
-    twill.commands.go(otherUrl)
-    soupOther = BeautifulSoup(twill.commands.show())
+    r = b.open(incomingUrl)
+    soupIncoming = BeautifulSoup(r.get_data())
+    r = b.open(outgoingUrl)
+    soupOutgoing = BeautifulSoup(r.get_data())
+    r = b.open(homeUrl)
+    soupHome = BeautifulSoup(r.get_data())
+    r = b.open(otherUrl)
+    soupOther = BeautifulSoup(r.get_data())
     # finally, we assign the parsed troops to an entry in the dictionary
     truppen["incoming"] = troopParsing(soupIncoming, False)
     truppen["outgoing"] = troopParsing(soupOutgoing, False)
