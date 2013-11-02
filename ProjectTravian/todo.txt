@@ -1,0 +1,4 @@
+Troop making
+Troop count
+Raidlist interface
+
