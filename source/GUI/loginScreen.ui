@@ -28,6 +28,10 @@
   <property name="windowTitle">
    <string>Travian Raider 2.0</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../imgs.qrc">
+    <normaloff>:/img/swords.gif</normaloff>:/img/swords.gif</iconset>
+  </property>
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>
@@ -112,6 +116,8 @@
   <tabstop>checkRemember</tabstop>
   <tabstop>buttonLogin</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../imgs.qrc"/>
+ </resources>
  <connections/>
 </ui>

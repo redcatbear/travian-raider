@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'GUI/untitled.ui'
+# Form implementation generated from reading ui file 'GUI/loginScreen.ui'
 #
-# Created: Sat Nov  2 09:08:59 2013
+# Created: Sun Nov  3 17:37:18 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -16,6 +16,9 @@ class Ui_Dialog(object):
         Dialog.resize(300, 180)
         Dialog.setMinimumSize(QtCore.QSize(300, 180))
         Dialog.setMaximumSize(QtCore.QSize(300, 180))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/img/swords.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Dialog.setWindowIcon(icon)
         Dialog.setAutoFillBackground(False)
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(False)
@@ -62,3 +65,4 @@ class Ui_Dialog(object):
         self.buttonLogin.setText(QtGui.QApplication.translate("Dialog", "Login", None, QtGui.QApplication.UnicodeUTF8))
         self.checkRemember.setText(QtGui.QApplication.translate("Dialog", "Remember credentials", None, QtGui.QApplication.UnicodeUTF8))
 
+import imgs_rc

@@ -74,16 +74,36 @@ def addToRaidlist(raid, raidlist):
     content.append(raid)
     if not write(raidlist, content):
         write(raidlist, content)
+        
+def removeAtIndexes(raidlist, p):
+    """ Removes the raids at the given indexes """
+    content = read(raidlist)
+    for i in p:
+        content[i] = None
+    write("raidlist.txt", [e for e in content if e != None])
+    
+def editAtIndex(raidlist, row, col, newValue, flag=None):
+    content = read(raidlist)
+    if not flag:
+        content[row][col+2] = newValue
+    elif flag == "x":
+        content[row][1] = (newValue, content[row][1][1])
+    elif flag == "y":
+        content[row][1] = (content[row][1][0], newValue)
+    write(raidlist, content)
+
+def deleteAll(raidlist):
+    open(raidlist, "w").close()
 
 def raid(raidlist):
     """ Sends all the raids contained within the raidlist """
-    r = b.open("build.php?tt=2&id=39")
-    b.select_form("snd")
     # content is in the format [[t, (x, y), t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11], [...], ...]
     # where t is the send type (2 = reinforcement, 3 = attack, 4 = raid), (x, y) is the coordinates
     # and t1 -> t11 is from the basic troop to the hero
     content = read(raidlist)
     for e in content:
+        r = b.open("build.php?tt=2&id=39")
+        b.select_form("snd")
         b.form["c"] = [str(e[0])]
         b.form["x"] = str(e[1][0])
         b.form["y"] = str(e[1][1])
@@ -97,8 +117,9 @@ def raid(raidlist):
                     b.form["t11"] = str(e[2+i])
                 except:
                     pass
-    # we submit once to prepare
-    r = b.submit()
-    # and once again to confirm
-    b.select_form(nr=0)
-    r = b.submit()
+        # we submit once to prepare
+        r = b.submit()
+        # and once again to confirm
+        b.select_form(nr=0)
+        r = b.submit()
+        yield 1

@@ -2,7 +2,22 @@ import sys
 import mechanize
 from bs4 import BeautifulSoup
 
-def troopParsing(soup, isHome, parsedSoup=None):
+
+def checkTribe(b):
+    r = b.open("dorf1.php")
+    html = r.get_data()
+    soup = BeautifulSoup(html)
+    tribe = str(soup.find("img", {"class": "nation"}))
+    # we find a html tag that contains the name of the tribe
+    # and we return a number according to the tribe found
+    if "Romans" in tribe:
+        return "R"
+    elif "Teutons" in tribe:
+        return "T"
+    else:
+        return "G"
+
+def troopParsing(b, soup, isHome, parsedSoup=None):
     """Parses the soup into a troop-number list"""
     troops = []
     # main list to be returned
@@ -32,7 +47,7 @@ def troopParsing(soup, isHome, parsedSoup=None):
         troops = troopParsing(None, False, parsedSoup)
     return troops
 
-def troops():
+def troops(b):
     # returns incoming, outgoing and home troops in a dictionary
     truppen = {}
     incomingUrl = "build.php?gid=16&tt=1&filter=1"
@@ -54,14 +69,14 @@ def troops():
     r = b.open(otherUrl)
     soupOther = BeautifulSoup(r.get_data())
     # finally, we assign the parsed troops to an entry in the dictionary
-    truppen["incoming"] = troopParsing(soupIncoming, False)
-    truppen["outgoing"] = troopParsing(soupOutgoing, False)
-    truppen["home"] = troopParsing(soupHome, True)
-    truppen["other"] = troopParsing(soupOther, False)
+    truppen["incoming"] = troopParsing(b, soupIncoming, False)
+    truppen["outgoing"] = troopParsing(b, soupOutgoing, False)
+    truppen["home"] = troopParsing(b, soupHome, True)
+    truppen["other"] = troopParsing(b, soupOther, False)
     return truppen
 	
-def totalTroops():
-    truppen = troops()
+def totalTroops(b):
+    truppen = troops(b)
     res = [0 for x in range(11)]
     for e in truppen:
         for k in range(len(truppen[e])):
