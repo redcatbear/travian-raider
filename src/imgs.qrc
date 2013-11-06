@@ -1,0 +1,36 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>img/hero.gif</file>
+    <file>img/swords.gif</file>
+    <file>img/t1_G.gif</file>
+    <file>img/t2_G.gif</file>
+    <file>img/t3_G.gif</file>
+    <file>img/t4_G.gif</file>
+    <file>img/t5_G.gif</file>
+    <file>img/t6_G.gif</file>
+    <file>img/t7_G.gif</file>
+    <file>img/t8_G.gif</file>
+    <file>img/t9_G.gif</file>
+    <file>img/t10_G.gif</file>
+    <file>img/t1_R.gif</file>
+    <file>img/t2_R.gif</file>
+    <file>img/t3_R.gif</file>
+    <file>img/t4_R.gif</file>
+    <file>img/t5_R.gif</file>
+    <file>img/t6_R.gif</file>
+    <file>img/t7_R.gif</file>
+    <file>img/t8_R.gif</file>
+    <file>img/t9_R.gif</file>
+    <file>img/t10_R.gif</file>
+    <file>img/t1_T.gif</file>
+    <file>img/t2_T.gif</file>
+    <file>img/t3_T.gif</file>
+    <file>img/t4_T.gif</file>
+    <file>img/t5_T.gif</file>
+    <file>img/t6_T.gif</file>
+    <file>img/t7_T.gif</file>
+    <file>img/t8_T.gif</file>
+    <file>img/t9_T.gif</file>
+    <file>img/t10_T.gif</file>
+</qresource>
+</RCC>

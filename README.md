@@ -1,6 +1,9 @@
 Travian Raider version 2.0
 ===========================
 
+About
+-----
+
 Version 2.0 of the Travian Raider program is different from the 1.x version in a couple of ways:
 	
 1. It now uses PySide (Qt Framework Python Bindings) for the main GUI design, it is cleaner, easier and Qter than Tkinter.
@@ -17,3 +20,15 @@ Version 2.0 of the Travian Raider program is different from the 1.x version in a
 5. In order to read and write into the raidlist.txt file, containing all the raids for the local user, the program now uses pickle instead of repr and eval, it is
    simply better than needlessly reinventing the wheel.
 6. Within the GUI folder you'll find .ui files, which are the files built using the QtDesigner4 and transformed into .py files using the pyside-uic toolset
+
+Instructions
+------------
+
+1. Linux:
+	- Get the TR2 tarball, extract it wherever you want to and then run the TRGUI executable, read the HOWTO for further instructions
+
+2. Windows:
+	- No implementation yet
+	
+3. Mac:
+	- No implementation yet
