@@ -31,18 +31,18 @@ class LoginDialog(QDialog, Ui_Dialog):
         self.loadLogin()
     
     def login(self):
-        usr = self.usrEntry.text()
-        pwd = self.pwdEntry.text()
-        srv = self.srvEntry.text()
+        self.usr = self.usrEntry.text()
+        self.pwd = self.pwdEntry.text()
+        self.srv = self.srvEntry.text()
         # we get the user input
-        login = LoginThread(usr, pwd, srv)
+        login = LoginThread(self.usr, self.pwd, self.srv)
         if login.run():
             # if login was successful, we greet the user
             QMessageBox.information(self, "Login", "Login Successful!")
             if self.checkRemember.isChecked():
                 # and if the remember credentials checkbox is checked
                 # we save the credentials
-                self.saveLogin(usr, pwd, srv)
+                self.saveLogin(self.usr, self.pwd, self.srv)
             self.close()
             self.emit(SIGNAL("loadMain()"))
             # and we change to a new window // TODO
@@ -83,8 +83,42 @@ class mainScreen(QTabWidget, Ui_mainScreen):
         self.buttonAdd.clicked.connect(self.addItem)
         self.buttonDelete.clicked.connect(self.deleteSelectedItems)
         self.buttonDeleteAll.clicked.connect(self.deleteAll)
+        self.searchButton.clicked.connect(self.search)
         self.raidProgress.setValue(0)
-        
+        self.currentPage = 1
+    
+    def search(self):
+        srv = str(loginDialog.srv)
+        varX = str(self.fieldX.text())
+        varY = str(self.fieldY.text())
+        #print srv[7:-1], varX, varY
+        if varX != "" and varY != "":
+            found = parsing.betterCropFinder(srv[7:-1], varX, varY, self.currentPage)
+            #print found
+            self.currentPage += 1
+            self.displaySearch(found)
+            self.searchButton.setText("More...")
+    
+    def displaySearch(self, cropList):
+        self.cFindTable.setRowCount(len(cropList))
+        numToAlpha = {1: "(L)", 2: "(C)", 3: "(I)", 4: "(W)"}
+        for i in range(len(cropList)):
+            item = QTableWidgetItem()
+            self.cFindTable.setVerticalHeaderItem(i, item)
+            s = ""
+            for j in range(len(cropList[i])):
+                if j < 4:
+                    item = QTableWidgetItem()
+                    item.setText(cropList[i][j])
+                    self.cFindTable.setItem(i, j, item)
+                else:
+                    s += "%d %s " % (cropList[i][j][1], numToAlpha[cropList[i][j][0]])
+            item = QTableWidgetItem()
+            item.setText(s)
+            self.cFindTable.setItem(i, 4, item)
+                
+                        
+    
     def addItem(self):
         # adds one empty item to the raidlist
         new = [4, (0, 0), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]

@@ -3,6 +3,72 @@ import mechanize
 from bs4 import BeautifulSoup
 
 
+def betterCropFinder(server, x, y, i=1):
+    b = mechanize.Browser()
+    r = b.open("http://croppers.travibot.com/?l=en&server=%s&x=%s&y=%s&page=%d" % (server, x, y, i))
+    rawData = r.read()
+    soup = BeautifulSoup(rawData)
+    rawData = soup.find("div", {"id": "croppers"})
+    data = rawData.findAll("tr")
+    processedData = [e.getText(strip=True, separator=" ") for e in data]
+    processedData = [str(e) for e in processedData[1:]]
+    processedData = [e[2:].replace("|", " ").split() for e in processedData]
+    td = [e.findAll("td") for e in data[1:]]
+    oasesType = [e[4].findAll("img") for e in td]
+    oT = []
+    for e in oasesType:
+        p = []
+        for sub in e:
+            for c in str(sub):
+                if c.isdigit():
+                    p.append(int(c))
+        oT.append(p)
+    oasesAttr = []
+    for i in range(len(processedData)):
+        sub = []
+        for j in range(len(processedData[i][4:])):
+            if len(sub) == 0:
+                sub.append([oT[i][j], int(processedData[i][j+4])])
+            else:
+                for k in range(len(sub)):
+                    if oT[i][j] == sub[k][0]:
+                        sub[k][1] += int(processedData[i][j+4])
+                        break
+                else:
+                    sub.append([oT[i][j], int(processedData[i][j+4])])
+                        
+            oasesAttr.append(sub)
+        processedData[i] = processedData[i][:4] + oasesAttr[i]
+    return processedData
+
+def cropFinder(b, cp, r, crop):
+    posUrl = "position_details.php?x=%d&y=%d"
+    x = cp[0]
+    y = cp[1]
+    cropTiles = []
+    newY = y - r
+    while newY < y + r:
+        newX = x - r
+        while newX < x + r:
+            resp = b.open(posUrl % (newX, newY))
+            rawData = resp.read()
+            try:
+                soup = BeautifulSoup(rawData)
+                processedData = soup.find("table", {"id": "distribution"})
+                rawDist = str(processedData.getText(strip=True, separator=" "))
+                processedDist = rawDist.split()
+                print processedDist
+                if processedDist[-1] == crop or processedDist[-2] == crop:
+                    cropTiles.append((newX, newY))
+            except:
+                pass
+            newX += 1
+        newY += 1
+    return cropTiles
+                
+def main(b):
+    return cropFinder(b, (-68, 7), 50, "15")  
+
 def checkTribe(b):
     r = b.open("dorf1.php")
     html = r.get_data()
@@ -83,3 +149,5 @@ def totalTroops(b):
             for i in range(len(truppen[e][k])):
                 res[i] += truppen[e][k][i]
     return res
+    
+#print betterCropFinder("tx3.travian.fr", 100, 82)

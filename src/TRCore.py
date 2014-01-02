@@ -138,3 +138,4 @@ def raid(raidlist):
         b.select_form(nr=0)
         r = b.submit()
         yield 1
+
