@@ -6,7 +6,7 @@
 import sys
 from cx_Freeze import setup, Executable
 
-executables = [Executable("TRGUI.py", icon="exe.ico", appendScriptToExe=True, appendScriptToLibrary=False)]
+executables = [Executable("TRGUI.py", icon="exe.ico", base="Win32GUI", appendScriptToExe=True, appendScriptToLibrary=False)]
 
 setup(
 	name = "Travian Raider",
