@@ -25,10 +25,12 @@ Instructions
 ------------
 
 1. Linux:
-	- Get the TR2 tarball, extract it wherever you want to and then run the TRGUI executable, read the HOWTO for further instructions
+	- No implementation yet
 
 2. Windows:
-	- No implementation yet
+	- Install Qt libraries 4.8.5 for Windows (VS 2008) from the official website http://qt-project.org/downloads
+	- If needed, install the msvc package included in the redist folder
+	- Launch TRGUI.exe
 	
 3. Mac:
 	- No implementation yet
