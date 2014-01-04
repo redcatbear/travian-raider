@@ -76,9 +76,10 @@ def checkTribe(b):
     tribe = str(soup.find("img", {"class": "nation"}))
     # we find a html tag that contains the name of the tribe
     # and we return a number according to the tribe found
-    if "Romans" in tribe:
+    #print tribe
+    if "nation1" in tribe:
         return "R"
-    elif "Teutons" in tribe:
+    elif "nation2" in tribe:
         return "T"
     else:
         return "G"

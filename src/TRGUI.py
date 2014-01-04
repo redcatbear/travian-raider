@@ -45,7 +45,6 @@ class LoginDialog(QDialog, Ui_Dialog):
                 self.saveLogin(self.usr, self.pwd, self.srv)
             self.close()
             self.emit(SIGNAL("loadMain()"))
-            # and we change to a new window // TODO
         else:
             # else, we tell the user that the login was unsuccessful
             QMessageBox.warning(self, "Login", "Invalid credentials")
@@ -101,7 +100,7 @@ class mainScreen(QTabWidget, Ui_mainScreen):
     
     def displaySearch(self, cropList):
         self.cFindTable.setRowCount(len(cropList))
-        numToAlpha = {1: "(L)", 2: "(C)", 3: "(I)", 4: "(W)"}
+        numToAlpha = {1: "(L)", 2: "(C)", 3: "(I)", 4: "(W)", 5: "(W)"}
         for i in range(len(cropList)):
             item = QTableWidgetItem()
             self.cFindTable.setVerticalHeaderItem(i, item)
@@ -112,6 +111,7 @@ class mainScreen(QTabWidget, Ui_mainScreen):
                     item.setText(cropList[i][j])
                     self.cFindTable.setItem(i, j, item)
                 else:
+                    #print cropList
                     s += "%d %s " % (cropList[i][j][1], numToAlpha[cropList[i][j][0]])
             item = QTableWidgetItem()
             item.setText(s)
