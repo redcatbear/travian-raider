@@ -1,6 +1,14 @@
 Travian Raider version 2.0
 ===========================
 
+Information
+-----------
+
+|Author|: Adrian Torres (Elkasitu)
+|Language|: Python 2.7.6
+|License|: GPLv3
+|Changelog|: Read CHANGELOG.md
+
 About
 -----
 
@@ -19,17 +27,20 @@ Version 2.0 of the Travian Raider program is different from the 1.x version in a
    is now TRGUI.py and has been completely rebuilt because of the change in GUI library.
 5. In order to read and write into the raidlist.txt file, containing all the raids for the local user, the program now uses pickle instead of repr and eval, it is
    simply better than needlessly reinventing the wheel.
-6. Within the GUI folder you'll find .ui files, which are the files built using the QtDesigner4 and transformed into .py files using the pyside-uic toolset
+6. Within the GUI folder you'll find .ui files, which are the files built using the QtDesigner4 and transformed into .py files using the pyside-uic tool
 
 Instructions
 ------------
 
 1. Linux:
-	- No implementation yet
+	- Install the Qt Libraries from the official website http://qt-project.org/downloads [4.8.5 for Linux Recommended]
+	- Extract files to a folder
+	- Launch the TRGUI executable
 
 2. Windows:
-	- Install Qt libraries 4.8.5 for Windows (VS 2008) from the official website http://qt-project.org/downloads
+	- Install the Qt Libraries from the official website http://qt-project.org/downloads [4.8.5 for Windows (VS 2008) Recommended]
 	- If needed, install the msvc package included in the redist folder
+	- Extract files to a folder
 	- Launch TRGUI.exe
 	
 3. Mac:
