@@ -14,15 +14,20 @@ def betterCropFinder(server, x, y, i=1):
     processedData = [str(e) for e in processedData[1:]]
     processedData = [e[2:].replace("|", " ").split() for e in processedData]
     td = [e.findAll("td") for e in data[1:]]
-    oasesType = [e[4].findAll("img") for e in td]
+    oasesType = [e[4] for e in td]
     oT = []
     for e in oasesType:
         p = []
-        for sub in e:
-            for c in str(sub):
-                if c.isdigit():
-                    p.append(int(c))
+        while True:
+            e = str(e)
+            n = e.find(".gif")
+            if n == -1:
+                break
+            p.append(int(e[n-1]))
+            e = e[n+1:]
         oT.append(p)
+    #print oT
+    #print processedData
     oasesAttr = []
     for i in range(len(processedData)):
         sub = []
@@ -36,8 +41,8 @@ def betterCropFinder(server, x, y, i=1):
                         break
                 else:
                     sub.append([oT[i][j], int(processedData[i][j+4])])
-                        
-            oasesAttr.append(sub)
+            #print sub
+        oasesAttr.append(sub)
         processedData[i] = processedData[i][:4] + oasesAttr[i]
     return processedData
 

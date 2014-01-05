@@ -100,7 +100,7 @@ class mainScreen(QTabWidget, Ui_mainScreen):
     
     def displaySearch(self, cropList):
         self.cFindTable.setRowCount(len(cropList))
-        numToAlpha = {1: "(L)", 2: "(C)", 3: "(I)", 4: "(W)", 5: "(W)"}
+        numToAlpha = {1: "(L)", 2: "(C)", 3: "(I)", 4: "(W)"}
         for i in range(len(cropList)):
             item = QTableWidgetItem()
             self.cFindTable.setVerticalHeaderItem(i, item)
