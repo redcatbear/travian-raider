@@ -4,10 +4,12 @@ Travian Raider version 2.0
 Information
 -----------
 
-|Author|: Adrian Torres (Elkasitu)
-|Language|: Python 2.7.6
-|License|: GPLv3
-|Changelog|: Read CHANGELOG.md
+|Project| Travian Raider |
+|------|---------------------------|
+|Author| Adrian Torres (Elkasitu) |
+|Language| Python 2.7.6 |
+|License| GPLv3 |
+|Changelog| Read CHANGELOG.md |
 
 About
 -----
